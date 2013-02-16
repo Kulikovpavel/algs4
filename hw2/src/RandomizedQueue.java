@@ -43,7 +43,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     public Item sample(){               // return (but do not delete) a random item
         if (isEmpty()) throw new java.util.NoSuchElementException();
-        Random randomGenerator = new Random();
+//        Random randomGenerator = new Random();
         int n_rand = StdRandom.uniform(N);
         Item item = a[n_rand];
         return item;
