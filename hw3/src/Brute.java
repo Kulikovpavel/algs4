@@ -12,19 +12,25 @@ import java.util.Arrays;
  */
 public class Brute {
     public static void main(String[] args){
-        try {
-            System.setIn(new FileInputStream(args[0]));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        int [] points = StdIn.readInts();
 
-        int N = points[0];
+        In in = new In(args[0]);      // input file
+        int N = in.readInt();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        StdDraw.show(0);
+
         Point[] a =  new Point[N];
-        for (int i=0; i<N;i++){
-            Point p = new Point(points[i*2+1], points[i*2+2]);
+        int i = 0;
+        while (!in.isEmpty()) {
+
+            Point p = new Point(in.readInt(),in.readInt());
             a[i] = p;
+            i++;
+            p.draw();
         }
+
+
+
 
         Stopwatch s= new Stopwatch();
         for (int i1=0;i1<N;i1++){
@@ -44,7 +50,7 @@ public class Brute {
 
 
                             Arrays.sort(b);
-//                            b[0].drawTo(b[3]);
+                            b[0].drawTo(b[3]);
                             StdOut.println(b[0]+ " -> " + b[1]+ " -> "+ b[2]+ " -> " +b[3]);
 
 
@@ -57,5 +63,7 @@ public class Brute {
 
         }
         System.out.println(s.elapsedTime());
+
+        StdDraw.show(1);
     }
 }

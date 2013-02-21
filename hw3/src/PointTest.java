@@ -1,3 +1,5 @@
+import org.junit.Ignore;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -32,7 +34,8 @@ public class PointTest {
         assertEquals(0,p_10.slopeTo(p0), 0.00000001);
         assertEquals(0,p0.slopeTo(p_10), 0.00000001);
         assertEquals(1,p0.slopeTo(p1), 0.00000001);
-        assertEquals(Double.NEGATIVE_INFINITY,p0.slopeTo(p0_1), 0.00000001);
+//        assertEquals(1,p0.slopeTo(p0), 0.00000001);
+        assertEquals(Double.POSITIVE_INFINITY,p0.slopeTo(p0_1), 0.00000001);
         assertEquals(Double.POSITIVE_INFINITY,p0.slopeTo(p01), 0.00000001);
 
     }
@@ -45,6 +48,19 @@ public class PointTest {
         assertEquals(1,p10.compareTo(p_10));
         assertEquals(1,p4.compareTo(p10));
         assertEquals(0,p6.compareTo(p6));
+
+
+    }
+
+    @org.junit.Test
+    public void testForFast() throws Exception {
+        Point p1 = new Point(21876, 29551);
+        Point p2 = new Point (21559, 29604);
+
+        assertEquals(true,p1.compareTo(p2)<0);
+        assertEquals(true,p2.compareTo(p1)>0);
+        assertEquals(-0.167192429022082,p1.slopeTo(p2),0.00000001 );
+
 
 
     }
