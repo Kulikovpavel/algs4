@@ -58,7 +58,6 @@ public class Point implements Comparable<Point> {
         }
         if (that.y == this.y) return 0.0;
         double result = (double)(this.y - that.y) / (this.x - that.x);
-//        System.out.println(result);
         return result;
     }
 
