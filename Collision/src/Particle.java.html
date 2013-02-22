@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang = "en">
+
+<head>
+
+<link rel="icon"          href="http://algs4.cs.princeton.edu/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://algs4.cs.princeton.edu/favicon.ico" type="image/x-icon">
+<link rel="stylesheet"    href="http://algs4.cs.princeton.edu/java.css" type="text/css">
+
+<title>Particle.java</title>
+
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<meta NAME="AUTHOR" CONTENT="Robert Sedgewick and Kevin Wayne">
+<meta NAME="DESCRIPTION" CONTENT="Particle code in Java">
+<meta NAME="TITLE" CONTENT="Particle code in Java">
+<meta NAME="KEYWORDS" CONTENT="Particle,java,programming,computer science,algorithm,data structure,program,code">
+<meta NAME="ROBOTS" CONTENT="INDEX,FOLLOW">
+
+</head>
+
+
+<body>
+<center><h1>Particle.java</h1></center><p><br>
+
+Below is the syntax highlighted version of <a href = "Particle.java">Particle.java</a>
+from <a href = "http://algs4.cs.princeton.edu/61event">&#167;6.1 Event-Driven Simulation</a>.
+<p><br>
+
+<!-- Generator: GNU source-highlight 2.5
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span class="normal"> </span><span class="comment">/*************************************************************************</span>
+<span class="comment"> *  Compilation:  javac Particle.java</span>
+<span class="comment"> *      </span>
+<span class="comment"> *  A particle moving in the unit box with a given position, velocity,</span>
+<span class="comment"> *  radius, and mass.</span>
+<span class="comment"> *</span>
+<span class="comment"> *************************************************************************/</span>
+
+<span class="preproc">import</span><span class="normal"> java</span><span class="symbol">.</span><span class="normal">awt</span><span class="symbol">.</span><span class="normal">Color</span><span class="symbol">;</span>
+
+<span class="keyword">public</span><span class="normal"> </span><span class="keyword">class</span><span class="normal"> Particle </span><span class="cbracket">{</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="keyword">static</span><span class="normal"> </span><span class="keyword">final</span><span class="normal"> </span><span class="type">double</span><span class="normal"> INFINITY </span><span class="symbol">=</span><span class="normal"> Double</span><span class="symbol">.</span><span class="normal">POSITIVE_INFINITY</span><span class="symbol">;</span>
+
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="type">double</span><span class="normal"> rx</span><span class="symbol">,</span><span class="normal"> ry</span><span class="symbol">;</span><span class="normal">    </span><span class="comment">// position</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="type">double</span><span class="normal"> vx</span><span class="symbol">,</span><span class="normal"> vy</span><span class="symbol">;</span><span class="normal">    </span><span class="comment">// velocity</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="type">double</span><span class="normal"> radius</span><span class="symbol">;</span><span class="normal">    </span><span class="comment">// radius</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="type">double</span><span class="normal"> mass</span><span class="symbol">;</span><span class="normal">      </span><span class="comment">// mass</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> Color color</span><span class="symbol">;</span><span class="normal">      </span><span class="comment">// color</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="type">int</span><span class="normal"> count</span><span class="symbol">;</span><span class="normal">        </span><span class="comment">// number of collisions so far</span>
+
+
+<span class="normal">    </span><span class="comment">// create a new particle with given parameters        </span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="function">Particle</span><span class="symbol">(</span><span class="type">double</span><span class="normal"> rx</span><span class="symbol">,</span><span class="normal"> </span><span class="type">double</span><span class="normal"> ry</span><span class="symbol">,</span><span class="normal"> </span><span class="type">double</span><span class="normal"> vx</span><span class="symbol">,</span><span class="normal"> </span><span class="type">double</span><span class="normal"> vy</span><span class="symbol">,</span><span class="normal"> </span><span class="type">double</span><span class="normal"> radius</span><span class="symbol">,</span><span class="normal"> </span><span class="type">double</span><span class="normal"> mass</span><span class="symbol">,</span><span class="normal"> Color color</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">vx </span><span class="symbol">=</span><span class="normal"> vx</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">vy </span><span class="symbol">=</span><span class="normal"> vy</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">rx </span><span class="symbol">=</span><span class="normal"> rx</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">ry </span><span class="symbol">=</span><span class="normal"> ry</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">radius </span><span class="symbol">=</span><span class="normal"> radius</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">mass   </span><span class="symbol">=</span><span class="normal"> mass</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">color  </span><span class="symbol">=</span><span class="normal"> color</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+<span class="normal">         </span>
+<span class="normal">    </span><span class="comment">// create a random particle in the unit box (overlaps not checked)</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="function">Particle</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        rx     </span><span class="symbol">=</span><span class="normal"> Math</span><span class="symbol">.</span><span class="function">random</span><span class="symbol">();</span>
+<span class="normal">        ry     </span><span class="symbol">=</span><span class="normal"> Math</span><span class="symbol">.</span><span class="function">random</span><span class="symbol">();</span>
+<span class="normal">        vx     </span><span class="symbol">=</span><span class="normal"> </span><span class="number">0.01</span><span class="normal"> </span><span class="symbol">*</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">Math</span><span class="symbol">.</span><span class="function">random</span><span class="symbol">()</span><span class="normal"> </span><span class="symbol">-</span><span class="normal"> </span><span class="number">0.5</span><span class="symbol">);</span>
+<span class="normal">        vy     </span><span class="symbol">=</span><span class="normal"> </span><span class="number">0.01</span><span class="normal"> </span><span class="symbol">*</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">Math</span><span class="symbol">.</span><span class="function">random</span><span class="symbol">()</span><span class="normal"> </span><span class="symbol">-</span><span class="normal"> </span><span class="number">0.5</span><span class="symbol">);</span>
+<span class="normal">        radius </span><span class="symbol">=</span><span class="normal"> </span><span class="number">0.01</span><span class="symbol">;</span>
+<span class="normal">        mass   </span><span class="symbol">=</span><span class="normal"> </span><span class="number">0.5</span><span class="symbol">;</span>
+<span class="normal">        color  </span><span class="symbol">=</span><span class="normal"> Color</span><span class="symbol">.</span><span class="normal">BLACK</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// updates position</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">void</span><span class="normal"> </span><span class="function">move</span><span class="symbol">(</span><span class="type">double</span><span class="normal"> dt</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        rx </span><span class="symbol">+=</span><span class="normal"> vx </span><span class="symbol">*</span><span class="normal"> dt</span><span class="symbol">;</span>
+<span class="normal">        ry </span><span class="symbol">+=</span><span class="normal"> vy </span><span class="symbol">*</span><span class="normal"> dt</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// draw the particle</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">void</span><span class="normal"> </span><span class="function">draw</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        StdDraw</span><span class="symbol">.</span><span class="function">setPenColor</span><span class="symbol">(</span><span class="normal">color</span><span class="symbol">);</span>
+<span class="normal">        StdDraw</span><span class="symbol">.</span><span class="function">filledCircle</span><span class="symbol">(</span><span class="normal">rx</span><span class="symbol">,</span><span class="normal"> ry</span><span class="symbol">,</span><span class="normal"> radius</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// return the number of collisions involving this particle</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">int</span><span class="normal"> </span><span class="function">count</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> count</span><span class="symbol">;</span><span class="normal"> </span><span class="cbracket">}</span>
+<span class="normal">        </span>
+<span class="normal">  </span>
+<span class="normal">    </span><span class="comment">// how long into future until collision between this particle a and b?</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">double</span><span class="normal"> </span><span class="function">timeToHit</span><span class="symbol">(</span><span class="normal">Particle b</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        Particle a </span><span class="symbol">=</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">a </span><span class="symbol">==</span><span class="normal"> b</span><span class="symbol">)</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> INFINITY</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dx  </span><span class="symbol">=</span><span class="normal"> b</span><span class="symbol">.</span><span class="normal">rx </span><span class="symbol">-</span><span class="normal"> a</span><span class="symbol">.</span><span class="normal">rx</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dy  </span><span class="symbol">=</span><span class="normal"> b</span><span class="symbol">.</span><span class="normal">ry </span><span class="symbol">-</span><span class="normal"> a</span><span class="symbol">.</span><span class="normal">ry</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dvx </span><span class="symbol">=</span><span class="normal"> b</span><span class="symbol">.</span><span class="normal">vx </span><span class="symbol">-</span><span class="normal"> a</span><span class="symbol">.</span><span class="normal">vx</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dvy </span><span class="symbol">=</span><span class="normal"> b</span><span class="symbol">.</span><span class="normal">vy </span><span class="symbol">-</span><span class="normal"> a</span><span class="symbol">.</span><span class="normal">vy</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dvdr </span><span class="symbol">=</span><span class="normal"> dx</span><span class="symbol">*</span><span class="normal">dvx </span><span class="symbol">+</span><span class="normal"> dy</span><span class="symbol">*</span><span class="normal">dvy</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">dvdr </span><span class="symbol">&gt;</span><span class="normal"> </span><span class="number">0</span><span class="symbol">)</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> INFINITY</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dvdv </span><span class="symbol">=</span><span class="normal"> dvx</span><span class="symbol">*</span><span class="normal">dvx </span><span class="symbol">+</span><span class="normal"> dvy</span><span class="symbol">*</span><span class="normal">dvy</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> drdr </span><span class="symbol">=</span><span class="normal"> dx</span><span class="symbol">*</span><span class="normal">dx </span><span class="symbol">+</span><span class="normal"> dy</span><span class="symbol">*</span><span class="normal">dy</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> sigma </span><span class="symbol">=</span><span class="normal"> a</span><span class="symbol">.</span><span class="normal">radius </span><span class="symbol">+</span><span class="normal"> b</span><span class="symbol">.</span><span class="normal">radius</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> d </span><span class="symbol">=</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">dvdr</span><span class="symbol">*</span><span class="normal">dvdr</span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">-</span><span class="normal"> dvdv </span><span class="symbol">*</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">drdr </span><span class="symbol">-</span><span class="normal"> sigma</span><span class="symbol">*</span><span class="normal">sigma</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="comment">// if (drdr &lt; sigma*sigma) StdOut.println("overlapping particles");</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">d </span><span class="symbol">&lt;</span><span class="normal"> </span><span class="number">0</span><span class="symbol">)</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> INFINITY</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> </span><span class="symbol">-(</span><span class="normal">dvdr </span><span class="symbol">+</span><span class="normal"> Math</span><span class="symbol">.</span><span class="function">sqrt</span><span class="symbol">(</span><span class="normal">d</span><span class="symbol">))</span><span class="normal"> </span><span class="symbol">/</span><span class="normal"> dvdv</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// how long into future until this particle collides with a vertical wall?</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">double</span><span class="normal"> </span><span class="function">timeToHitVerticalWall</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal">      </span><span class="symbol">(</span><span class="normal">vx </span><span class="symbol">&gt;</span><span class="normal"> </span><span class="number">0</span><span class="symbol">)</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> </span><span class="symbol">(</span><span class="number">1.0</span><span class="normal"> </span><span class="symbol">-</span><span class="normal"> rx </span><span class="symbol">-</span><span class="normal"> radius</span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">/</span><span class="normal"> vx</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">else</span><span class="normal"> </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">vx </span><span class="symbol">&lt;</span><span class="normal"> </span><span class="number">0</span><span class="symbol">)</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">radius </span><span class="symbol">-</span><span class="normal"> rx</span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">/</span><span class="normal"> vx</span><span class="symbol">;</span><span class="normal">  </span>
+<span class="normal">        </span><span class="keyword">else</span><span class="normal">             </span><span class="keyword">return</span><span class="normal"> INFINITY</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// how long into future until this particle collides with a horizontal wall?</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">double</span><span class="normal"> </span><span class="function">timeToHitHorizontalWall</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal">      </span><span class="symbol">(</span><span class="normal">vy </span><span class="symbol">&gt;</span><span class="normal"> </span><span class="number">0</span><span class="symbol">)</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> </span><span class="symbol">(</span><span class="number">1.0</span><span class="normal"> </span><span class="symbol">-</span><span class="normal"> ry </span><span class="symbol">-</span><span class="normal"> radius</span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">/</span><span class="normal"> vy</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">else</span><span class="normal"> </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">vy </span><span class="symbol">&lt;</span><span class="normal"> </span><span class="number">0</span><span class="symbol">)</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">radius </span><span class="symbol">-</span><span class="normal"> ry</span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">/</span><span class="normal"> vy</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">else</span><span class="normal">             </span><span class="keyword">return</span><span class="normal"> INFINITY</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// update velocities upon collision between this particle and that particle</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">void</span><span class="normal"> </span><span class="function">bounceOff</span><span class="symbol">(</span><span class="normal">Particle that</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dx  </span><span class="symbol">=</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">rx </span><span class="symbol">-</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">rx</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dy  </span><span class="symbol">=</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">ry </span><span class="symbol">-</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">ry</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dvx </span><span class="symbol">=</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">vx </span><span class="symbol">-</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">vx</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dvy </span><span class="symbol">=</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">vy </span><span class="symbol">-</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">vy</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dvdr </span><span class="symbol">=</span><span class="normal"> dx</span><span class="symbol">*</span><span class="normal">dvx </span><span class="symbol">+</span><span class="normal"> dy</span><span class="symbol">*</span><span class="normal">dvy</span><span class="symbol">;</span><span class="normal">             </span><span class="comment">// dv dot dr</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> dist </span><span class="symbol">=</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">radius </span><span class="symbol">+</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">radius</span><span class="symbol">;</span><span class="normal">   </span><span class="comment">// distance between particle centers at collison</span>
+
+<span class="normal">        </span><span class="comment">// normal force F, and in x and y directions</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> F </span><span class="symbol">=</span><span class="normal"> </span><span class="number">2</span><span class="normal"> </span><span class="symbol">*</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">mass </span><span class="symbol">*</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">mass </span><span class="symbol">*</span><span class="normal"> dvdr </span><span class="symbol">/</span><span class="normal"> </span><span class="symbol">((</span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">mass </span><span class="symbol">+</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">mass</span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">*</span><span class="normal"> dist</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> fx </span><span class="symbol">=</span><span class="normal"> F </span><span class="symbol">*</span><span class="normal"> dx </span><span class="symbol">/</span><span class="normal"> dist</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="type">double</span><span class="normal"> fy </span><span class="symbol">=</span><span class="normal"> F </span><span class="symbol">*</span><span class="normal"> dy </span><span class="symbol">/</span><span class="normal"> dist</span><span class="symbol">;</span>
+
+<span class="normal">        </span><span class="comment">// update velocities according to normal force</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">vx </span><span class="symbol">+=</span><span class="normal"> fx </span><span class="symbol">/</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">mass</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">vy </span><span class="symbol">+=</span><span class="normal"> fy </span><span class="symbol">/</span><span class="normal"> </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">mass</span><span class="symbol">;</span>
+<span class="normal">        that</span><span class="symbol">.</span><span class="normal">vx </span><span class="symbol">-=</span><span class="normal"> fx </span><span class="symbol">/</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">mass</span><span class="symbol">;</span>
+<span class="normal">        that</span><span class="symbol">.</span><span class="normal">vy </span><span class="symbol">-=</span><span class="normal"> fy </span><span class="symbol">/</span><span class="normal"> that</span><span class="symbol">.</span><span class="normal">mass</span><span class="symbol">;</span>
+
+<span class="normal">        </span><span class="comment">// update collision counts</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">count</span><span class="symbol">++;</span>
+<span class="normal">        that</span><span class="symbol">.</span><span class="normal">count</span><span class="symbol">++;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// update velocity of this particle upon collision with a vertical wall</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">void</span><span class="normal"> </span><span class="function">bounceOffVerticalWall</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        vx </span><span class="symbol">=</span><span class="normal"> </span><span class="symbol">-</span><span class="normal">vx</span><span class="symbol">;</span>
+<span class="normal">        count</span><span class="symbol">++;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// update velocity of this particle upon collision with a horizontal wall</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">void</span><span class="normal"> </span><span class="function">bounceOffHorizontalWall</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        vy </span><span class="symbol">=</span><span class="normal"> </span><span class="symbol">-</span><span class="normal">vy</span><span class="symbol">;</span>
+<span class="normal">        count</span><span class="symbol">++;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="comment">// return kinetic energy associated with this particle</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">double</span><span class="normal"> </span><span class="function">kineticEnergy</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span><span class="normal"> </span><span class="keyword">return</span><span class="normal"> </span><span class="number">0.5</span><span class="normal"> </span><span class="symbol">*</span><span class="normal"> mass </span><span class="symbol">*</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">vx</span><span class="symbol">*</span><span class="normal">vx </span><span class="symbol">+</span><span class="normal"> vy</span><span class="symbol">*</span><span class="normal">vy</span><span class="symbol">);</span><span class="normal"> </span><span class="cbracket">}</span>
+<span class="cbracket">}</span>
+</tt></pre>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-10811519-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body>
+
+<p><br><address><small>
+Copyright &copy; 2002&ndash;2010, Robert Sedgewick and Kevin Wayne.
+<br>Last updated: Mon Jul 25 08:34:07 EDT 2011.
+</small></address>
+
+</html>
