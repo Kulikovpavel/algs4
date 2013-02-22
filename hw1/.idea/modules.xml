@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Collision/Collision.iml" filepath="$PROJECT_DIR$/../Collision/Collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/hw1.iml" filepath="$PROJECT_DIR$/hw1.iml" />
       <module fileurl="file://$PROJECT_DIR$/../hw2/hw2.iml" filepath="$PROJECT_DIR$/../hw2/hw2.iml" />
       <module fileurl="file://$PROJECT_DIR$/../hw3/hw3.iml" filepath="$PROJECT_DIR$/../hw3/hw3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../hw4/hw4.iml" filepath="$PROJECT_DIR$/../hw4/hw4.iml" />
     </modules>
   </component>
 </project>
