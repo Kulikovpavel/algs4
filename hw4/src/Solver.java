@@ -115,7 +115,6 @@ public class Solver{
 //            if (res.isGoal()) goalReached = true;
 //            System.out.println(pq.size());
             return pq.min();
-
         }
 
         public void remove() {
