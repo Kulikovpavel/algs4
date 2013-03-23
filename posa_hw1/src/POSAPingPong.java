@@ -1,4 +1,3 @@
-
 import java.util.*;import java.util.concurrent.*;
 
 public class POSAPingPong
@@ -43,7 +42,7 @@ public class POSAPingPong
     }
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         System.out.println("Ready… Set… Go!");
 
         Semaphore pingSemaphore = new Semaphore(1);
