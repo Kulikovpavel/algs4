@@ -38,7 +38,7 @@ public class KdTree {
     private Node put(Node x,Point2D newPoint,boolean xLevel, Node prev,int cmpPrev) {
         if (x == null){
             N++;
-            RectHV rect=null;
+            RectHV rect;
             if (!xLevel) {
                 if (cmpPrev<0) rect = new RectHV(prev.rect.xmin(),prev.rect.ymin(),prev.p.x(),prev.rect.ymax());
                 else rect = new RectHV(prev.p.x(),prev.rect.ymin(),prev.rect.xmax(),prev.rect.ymax());
@@ -64,7 +64,7 @@ public class KdTree {
         return N;
     }                               // number of points in the set
     private Iterable<Point2D> iterable(){
-        Queue<Point2D> queue = new Queue();
+        Queue<Point2D> queue = new Queue<Point2D>();
 
         addQueue(root, queue);
         return queue;
